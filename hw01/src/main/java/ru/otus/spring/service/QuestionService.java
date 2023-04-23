@@ -10,8 +10,8 @@ public interface QuestionService {
 
     Question nextQuestion();
 
-    Question previousQuestion();
-
     void askAllQuestions();
+
+    void ask(Question question);
 
 }

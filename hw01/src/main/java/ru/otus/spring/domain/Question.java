@@ -1,9 +1,16 @@
 package ru.otus.spring.domain;
 
-public interface Question {
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-    void ask();
+import java.util.List;
 
-    boolean parseAnswer(Answer answer);
+@Data
+@AllArgsConstructor
+public class Question {
+
+    private String questionPhrase;
+    
+    private List<Answer> answers;
 
 }

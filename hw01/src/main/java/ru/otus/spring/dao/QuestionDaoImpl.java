@@ -1,9 +1,9 @@
 package ru.otus.spring.dao;
 
 import lombok.RequiredArgsConstructor;
-import ru.otus.spring.domain.BadQuestionStringException;
+import ru.otus.spring.domain.Answer;
+import ru.otus.spring.domain.AnswerImpl;
 import ru.otus.spring.domain.Question;
-import ru.otus.spring.domain.QuestionImpl;
 import ru.otus.spring.service.QuestionServiceImpl;
 
 import java.nio.charset.StandardCharsets;
@@ -26,12 +26,38 @@ public class QuestionDaoImpl implements QuestionDao {
                     .useDelimiter("\\n");
         while (scanner.hasNext()) {
             try {
-                questions.add(new QuestionImpl(scanner.next()));
+                questions.add(parseQuestionString(scanner.next()));
             } catch (BadQuestionStringException bqsq) {
                 System.err.println("ERROR: Bad question string in file " + questionsFileName
                         + "; string № " + (questions.size() + 1) + "\n");
             }
         }
         return questions;
+    }
+
+
+    private Question parseQuestionString(String questionString) {
+        checkQuestionString(questionString);
+        String[] splited = questionString.split(";");
+
+        List<Answer> answers = new ArrayList<>();
+        if (splited.length > 0) {
+            for (int i = 1; i < splited.length; i++) {
+                // первый ответ после вопроса - правильный
+                answers.add(new AnswerImpl(i == 1, splited[i]));
+            }
+        }
+        return new Question(splited[0], answers);
+    }
+
+    // проверяем, что правильный ответ содержится в вариантах
+    private boolean checkQuestionString(String questionString) {
+        String[] splited = questionString.split(";");
+        for (int i = 2; i < splited.length; i++) {
+            if (splited[1].equals(splited[i])) {
+                return true;
+            }
+        }
+        throw new BadQuestionStringException();
     }
 }

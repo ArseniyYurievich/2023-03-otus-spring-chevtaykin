@@ -1,25 +1,17 @@
 package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 
 @RequiredArgsConstructor
-@PropertySource("classpath:spring.properties")
 public class ExamineServiceImpl implements ExamineService {
 
-    @NotNull
-    private IOService ioService;
+    private final IOService ioService;
 
-    @NotNull
-    private QuestionService questionService;
+    private final QuestionService questionService;
 
-    @NotNull
-    private UserService userService;
+    private final UserService userService;
 
-    @Value("${answers.correctCountToPass}")
-    private int correctAnswersCountToPass;
+    private final int correctAnswersCountToPass;
 
     @Override
     public void execute() {

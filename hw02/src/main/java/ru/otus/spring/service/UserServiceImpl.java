@@ -1,7 +1,6 @@
 package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import ru.otus.spring.domain.User;
 
 @RequiredArgsConstructor
@@ -11,8 +10,7 @@ public class UserServiceImpl implements UserService {
 
     private int correctAnswersCount;
 
-    @NotNull
-    private IOService ioService;
+    private final IOService ioService;
 
     @Override
     public void setCurrentUser(User user) {

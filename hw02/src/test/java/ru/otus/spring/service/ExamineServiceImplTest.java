@@ -12,7 +12,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.spring.Main;
 import ru.otus.spring.config.TestContextConfig;
 import ru.otus.spring.domain.Answer;
-import ru.otus.spring.domain.AnswerImpl;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.User;
 
@@ -44,9 +43,9 @@ class ExamineServiceImplTest {
     private List<Question> questions = new ArrayList<>();
 
     private List<Answer> answers = new ArrayList<>(Arrays.asList(
-            new AnswerImpl("correct answer", Boolean.TRUE),
-            new AnswerImpl("test answer phrase true", Boolean.TRUE),
-            new AnswerImpl("test answer phrase false", Boolean.FALSE))
+            new Answer("correct answer", Boolean.TRUE),
+            new Answer("test answer phrase true", Boolean.TRUE),
+            new Answer("test answer phrase false", Boolean.FALSE))
     );
 
     @BeforeEach

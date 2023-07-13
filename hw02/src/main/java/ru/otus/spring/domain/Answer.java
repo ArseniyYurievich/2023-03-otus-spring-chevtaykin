@@ -1,9 +1,13 @@
 package ru.otus.spring.domain;
 
-public interface Answer {
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-    String getAnswerPhrase();
+@Data
+@AllArgsConstructor
+public class Answer {
 
-    boolean isCorrect();
+    private String answerPhrase;
 
+    private boolean isCorrect;
 }

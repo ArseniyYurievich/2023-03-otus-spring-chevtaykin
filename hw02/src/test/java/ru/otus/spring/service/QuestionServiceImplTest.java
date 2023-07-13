@@ -1,20 +1,17 @@
 package ru.otus.spring.service;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.spring.Main;
 import ru.otus.spring.config.TestContextConfig;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.domain.Answer;
-import ru.otus.spring.domain.AnswerImpl;
 import ru.otus.spring.domain.Question;
 
 import java.util.ArrayList;
@@ -27,30 +24,29 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = {Main.class, TestContextConfig.class})
 class QuestionServiceImplTest {
 
-    @Autowired
-    private QuestionService questionService;
-
-    @Autowired
+    @Mock
     private QuestionDao questionDao;
 
-    @Autowired
+    @Mock
     private IOService ioService;
+
+    @InjectMocks
+    private QuestionServiceImpl questionService;
 
     private List<Question> questions = new ArrayList<>();
 
     private List<Answer> answers = new ArrayList<>(Arrays.asList(
-            new AnswerImpl("correct answer", Boolean.TRUE),
-            new AnswerImpl("test answer phrase true", Boolean.TRUE),
-            new AnswerImpl("test answer phrase false", Boolean.FALSE))
+            new Answer("correct answer", Boolean.TRUE),
+            new Answer("test answer phrase true", Boolean.TRUE),
+            new Answer("test answer phrase false", Boolean.FALSE))
     );
 
     @BeforeEach
     void setUp() {
-        Mockito.reset(questionDao, ioService);
         questions.clear();
         questions.add(new Question("test question phrase", answers));
         questions.add(new Question("second test question", answers));
@@ -61,6 +57,7 @@ class QuestionServiceImplTest {
     @DisplayName("должен возвращать список вопросов")
     void shouldReturnQuestionsList() {
         Optional<List<Question>> questionsOptional = Optional.ofNullable(questionService.getQuestions());
+        verify(questionService).getQuestions();
         assertThat(questionsOptional).isNotEmpty().hasValue(questions);
     }
 

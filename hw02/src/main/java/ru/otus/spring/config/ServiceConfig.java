@@ -1,8 +1,10 @@
 package ru.otus.spring.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.service.ExamineService;
 import ru.otus.spring.service.ExamineServiceImpl;
@@ -14,7 +16,11 @@ import ru.otus.spring.service.UserService;
 import ru.otus.spring.service.UserServiceImpl;
 
 @Configuration
+@PropertySource("classpath:spring.properties")
 public class ServiceConfig {
+
+    @Value("${answers.correctCountToPass}")
+    private int correctAnswersCountToPass;
 
     @Bean
     public IOService ioService() {
@@ -34,7 +40,7 @@ public class ServiceConfig {
     @Bean
     public ExamineService examineService(IOService ioService, QuestionService questionService,
                                          UserService userService) {
-        return new ExamineServiceImpl(ioService, questionService, userService);
+        return new ExamineServiceImpl(ioService, questionService, userService, correctAnswersCountToPass);
     }
 
 }

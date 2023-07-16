@@ -1,6 +1,9 @@
 package ru.otus.spring.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Repository;
 import ru.otus.spring.domain.BadQuestionStringException;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.service.QuestionServiceImpl;
@@ -11,10 +14,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+@Repository
 @RequiredArgsConstructor
+@PropertySource("classpath:spring.properties")
 public class QuestionDaoImpl implements QuestionDao {
 
-    private final String questionsFileName;
+    @Value("${questions.fileName}")
+    private String questionsFileName;
+
+    private final QuestionParserImpl questionParser;
 
     @Override
     public List<Question> getQuestions() {
@@ -24,7 +32,7 @@ public class QuestionDaoImpl implements QuestionDao {
                     .useDelimiter("\\n");
         while (scanner.hasNext()) {
             try {
-                questions.add(QuestionParser.parseQuestionString(scanner.next()));
+                questions.add(questionParser.parseQuestionString(scanner.next()));
             } catch (BadQuestionStringException bqsq) {
                 System.err.println("ERROR: Bad question string in file " + questionsFileName
                         + "; string № " + (questions.size() + 1) + "\n");

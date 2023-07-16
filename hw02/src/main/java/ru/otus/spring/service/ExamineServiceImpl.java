@@ -1,17 +1,25 @@
 package ru.otus.spring.service;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class ExamineServiceImpl implements ExamineService {
 
-    private final IOService ioService;
+    private IOService ioService;
 
-    private final QuestionService questionService;
+    private QuestionService questionService;
 
-    private final UserService userService;
+    private UserService userService;
 
-    private final int correctAnswersCountToPass;
+    private int correctAnswersCountToPass;
+
+    public ExamineServiceImpl() {
+    }
+
+    public ExamineServiceImpl(IOService ioService, QuestionService questionService, UserService userService,
+                              int correctAnswersCountToPass) {
+        this.ioService = ioService;
+        this.questionService = questionService;
+        this.userService = userService;
+        this.correctAnswersCountToPass = correctAnswersCountToPass;
+    }
 
     @Override
     public void execute() {

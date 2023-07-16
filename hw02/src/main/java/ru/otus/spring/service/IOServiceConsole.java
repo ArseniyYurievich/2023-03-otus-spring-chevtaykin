@@ -1,8 +1,5 @@
 package ru.otus.spring.service;
 
-import lombok.SneakyThrows;
-
-import java.io.IOException;
 import java.util.Scanner;
 
 public class IOServiceConsole implements IOService {
@@ -19,21 +16,19 @@ public class IOServiceConsole implements IOService {
         System.out.print(i);
     }
 
-    @SneakyThrows
     @Override
     public String inputString() {
-        if (!scanner.hasNext()) {
-            throw new IOException("There's no input string to read.");
-        }
         return scanner.nextLine();
     }
 
-    @SneakyThrows
     @Override
     public int inputInt() {
-        if (!scanner.hasNextInt()) {
-            throw new IOException("There's no input integer to read.");
+        if (scanner.hasNextInt()) {
+            return scanner.nextInt();
+        } else {
+            printString("Bad integer was entered. Try again\n");
+            scanner.nextLine();
+            return inputInt();
         }
-        return scanner.nextInt();
     }
 }

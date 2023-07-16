@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
 import ru.otus.spring.Main;
-import ru.otus.spring.config.TestContextConfig;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = {Main.class, TestContextConfig.class})
+@ContextConfiguration(classes = {Main.class})
 class QuestionServiceImplTest {
 
     @Mock
@@ -57,7 +56,6 @@ class QuestionServiceImplTest {
     @DisplayName("должен возвращать список вопросов")
     void shouldReturnQuestionsList() {
         Optional<List<Question>> questionsOptional = Optional.ofNullable(questionService.getQuestions());
-        verify(questionService).getQuestions();
         assertThat(questionsOptional).isNotEmpty().hasValue(questions);
     }
 
